@@ -25,6 +25,12 @@ class LeadUpdateController extends GetxController{
     leadGroupByList.value.add(val);
     leadGroupByList.refresh();
   }
+ var leadCount = 0.obs;
+  int  get getLeadCount => leadCount.value;
+  set setLeadCount(int val){
+    leadCount.value =val;
+    leadCount.refresh();
+  }
 
   DocumentSnapshot lastDocument;
   leadUpdate(String type){
@@ -38,9 +44,15 @@ class LeadUpdateController extends GetxController{
       var beforeDate = DateTime(currentDate.year,currentDate.month,currentDate.day);
       FirebaseFirestore.instance.collection("leads").where("time",isGreaterThanOrEqualTo: Timestamp.fromDate(beforeDate)).get().then((value) {
         lastDocument = value.docs[value.docs.length -1];
+        setLeadCount = value.docs.length;
         value.docs.forEach((element) {
+
           LeadModel _leadModel = LeadModel.fromJson(element.data());
           _leadModel.key = element.id;
+          FirebaseFirestore.instance.collection("user_details").doc(_leadModel.assignedTo).get().then((value) {
+            UserDetailModel userDetailModel = UserDetailModel.fromJson(value.data());
+            _leadModel.assignedTo = userDetailModel.advisorName;
+          });
           setLeadUpdateList = _leadModel;
         });
       }).then((value) {
@@ -48,10 +60,12 @@ class LeadUpdateController extends GetxController{
         groupByDate.forEach((key, groupList) {
           print(key);
           FirebaseFirestore.instance.collection("user_details").doc(key.toString()).get().then((value) {
+
             UserDetailModel userDetailModel = UserDetailModel.fromJson(value.data());
             LeadGroupByModel leadGroupByModel = LeadGroupByModel(name: userDetailModel.advisorName,count: groupList.length,leadList: groupList);
             setLeadGroupByList =leadGroupByModel ;
           });
+
         });
       });
     }
@@ -60,9 +74,14 @@ class LeadUpdateController extends GetxController{
       var beforeDate = DateTime(currentDate.year,currentDate.month,currentDate.day-1);
       FirebaseFirestore.instance.collection("leads").where("time",isGreaterThanOrEqualTo: Timestamp.fromDate(beforeDate)).get().then((value) {
         lastDocument = value.docs[value.docs.length -1];
+        setLeadCount = value.docs.length;
         value.docs.forEach((element) {
           LeadModel _leadModel = LeadModel.fromJson(element.data());
           _leadModel.key = element.id;
+          FirebaseFirestore.instance.collection("user_details").doc(_leadModel.assignedTo).get().then((value) {
+            UserDetailModel userDetailModel = UserDetailModel.fromJson(value.data());
+            _leadModel.assignedTo = userDetailModel.advisorName;
+          });
           setLeadUpdateList = _leadModel;
         });
       }).then((value) {
@@ -82,9 +101,14 @@ class LeadUpdateController extends GetxController{
       var beforeDate = DateTime(currentDate.year,currentDate.month,currentDate.day-6);
       FirebaseFirestore.instance.collection("leads").where("time",isGreaterThanOrEqualTo: Timestamp.fromDate(beforeDate)).get().then((value) {
         lastDocument = value.docs[value.docs.length -1];
+        setLeadCount = value.docs.length;
         value.docs.forEach((element) {
           LeadModel _leadModel = LeadModel.fromJson(element.data());
           _leadModel.key = element.id;
+          FirebaseFirestore.instance.collection("user_details").doc(_leadModel.assignedTo).get().then((value) {
+            UserDetailModel userDetailModel = UserDetailModel.fromJson(value.data());
+            _leadModel.assignedTo = userDetailModel.advisorName;
+          });
           setLeadUpdateList = _leadModel;
         });
       }).then((value) {
@@ -104,9 +128,14 @@ class LeadUpdateController extends GetxController{
       var beforeDate = DateTime(currentDate.year,currentDate.month,currentDate.day-13);
       FirebaseFirestore.instance.collection("leads").where("time",isGreaterThanOrEqualTo: Timestamp.fromDate(beforeDate)).get().then((value) {
         lastDocument = value.docs[value.docs.length -1];
+        setLeadCount = value.docs.length;
         value.docs.forEach((element) {
           LeadModel _leadModel = LeadModel.fromJson(element.data());
           _leadModel.key = element.id;
+          FirebaseFirestore.instance.collection("user_details").doc(_leadModel.assignedTo).get().then((value) {
+            UserDetailModel userDetailModel = UserDetailModel.fromJson(value.data());
+            _leadModel.assignedTo = userDetailModel.advisorName;
+          });
           setLeadUpdateList = _leadModel;
         });
       }).then((value) {
@@ -126,9 +155,14 @@ class LeadUpdateController extends GetxController{
       var beforeDate = DateTime(currentDate.year,currentDate.month);
       FirebaseFirestore.instance.collection("leads").where("time",isGreaterThanOrEqualTo: Timestamp.fromDate(beforeDate)).get().then((value) {
         lastDocument = value.docs[value.docs.length -1];
+        setLeadCount = value.docs.length;
         value.docs.forEach((element) {
           LeadModel _leadModel = LeadModel.fromJson(element.data());
           _leadModel.key = element.id;
+          FirebaseFirestore.instance.collection("user_details").doc(_leadModel.assignedTo).get().then((value) {
+            UserDetailModel userDetailModel = UserDetailModel.fromJson(value.data());
+            _leadModel.assignedTo = userDetailModel.advisorName;
+          });
           setLeadUpdateList = _leadModel;
         });
       }).then((value) {
@@ -148,9 +182,14 @@ class LeadUpdateController extends GetxController{
       var beforeDate = DateTime(currentDate.year,currentDate.month-29);
       FirebaseFirestore.instance.collection("leads").where("time",isGreaterThanOrEqualTo: Timestamp.fromDate(beforeDate)).get().then((value) {
         lastDocument = value.docs[value.docs.length -1];
+        setLeadCount = value.docs.length;
         value.docs.forEach((element) {
           LeadModel _leadModel = LeadModel.fromJson(element.data());
           _leadModel.key = element.id;
+          FirebaseFirestore.instance.collection("user_details").doc(_leadModel.assignedTo).get().then((value) {
+            UserDetailModel userDetailModel = UserDetailModel.fromJson(value.data());
+            _leadModel.assignedTo = userDetailModel.advisorName;
+          });
           setLeadUpdateList = _leadModel;
         });
       }).then((value) {
@@ -162,6 +201,34 @@ class LeadUpdateController extends GetxController{
             LeadGroupByModel leadGroupByModel = LeadGroupByModel(name: userDetailModel.advisorName,count: groupList.length,leadList: groupList);
             setLeadGroupByList =leadGroupByModel ;
           });
+        });
+      });
+    }
+    else{
+      var currentDate = DateTime.now();
+      var beforeDate = DateTime(currentDate.year,currentDate.month,currentDate.day);
+      FirebaseFirestore.instance.collection("leads").where("status",isEqualTo: type).get().then((value) {
+        lastDocument = value.docs[value.docs.length -1];
+        setLeadCount = value.docs.length;
+        value.docs.forEach((element) {
+          LeadModel _leadModel = LeadModel.fromJson(element.data());
+          _leadModel.key = element.id;
+          FirebaseFirestore.instance.collection("user_details").doc(_leadModel.assignedTo).get().then((value) {
+            UserDetailModel userDetailModel = UserDetailModel.fromJson(value.data());
+            _leadModel.assignedTo = userDetailModel.advisorName;
+          });
+          setLeadUpdateList = _leadModel;
+        });
+      }).then((value) {
+        var groupByDate = getLeadUpdateList.groupListsBy((element) => element.referralId,);
+        groupByDate.forEach((key, groupList) {
+          print(key);
+          FirebaseFirestore.instance.collection("user_details").doc(key.toString()).get().then((value) {
+            UserDetailModel userDetailModel = UserDetailModel.fromJson(value.data());
+            LeadGroupByModel leadGroupByModel = LeadGroupByModel(name: userDetailModel.advisorName,count: groupList.length,leadList: groupList);
+            setLeadGroupByList =leadGroupByModel ;
+          });
+
         });
       });
     }

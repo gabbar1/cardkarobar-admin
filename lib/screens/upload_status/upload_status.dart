@@ -22,7 +22,7 @@ class _LeadExcelState extends State<LeadExcel> {
   void initState() {
     // TODO: implement initState
     _uploadStatusController.productList();
-    _uploadStatusController.unassignNumber();
+
     super.initState();
   }
 

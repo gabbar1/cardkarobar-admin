@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import '../../helper/constant.dart';
 import '../dashboard/dasboard_view.dart';
 import '../partner/partner.dart';
+import '../payment/payment.dart';
 import '../upload_status/upload_status.dart';
 import '../user_details/user.dart';
 
@@ -30,6 +31,8 @@ class _HomeNavigatorState extends State<HomeNavigator> {
         return LeadUpdate();
       case 5:
         return LeadExcel();
+      case 6:
+        return PaymentView();
 
         break;
       default:
@@ -161,6 +164,22 @@ class _HomeNavigatorState extends State<HomeNavigator> {
                         style: TextStyle(
                             color:
                             _selectedIndex == 5 ? mainColor : Colors.white),
+                      ),
+                    ),
+                    NavigationRailDestination(
+                      icon: const Icon(
+                        Icons.payments,
+                        color: Colors.white,
+                      ),
+                      selectedIcon: const Icon(
+                        Icons.payments,
+                        color: mainColor,
+                      ),
+                      label: Text(
+                        'Payment',
+                        style: TextStyle(
+                            color:
+                            _selectedIndex == 6 ? mainColor : Colors.white),
                       ),
                     ),
                   ],

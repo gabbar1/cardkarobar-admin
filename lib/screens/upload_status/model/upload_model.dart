@@ -10,6 +10,7 @@ class UploadModel {
   int referralPrice;
   bool isLeadClosed;
   String key;
+  String adminComment;
 
   UploadModel(
       {this.applicationNumber,
@@ -20,7 +21,8 @@ class UploadModel {
         this.status,
         this.referralPrice,
         this.isLeadClosed,
-        this.key
+        this.key,
+        this.adminComment,
       });
 
   UploadModel.fromJson(Map<String, dynamic> json) {
@@ -32,6 +34,7 @@ class UploadModel {
     status = json['status'];
     referralPrice = json['referral_price'];
     isLeadClosed = json['isLeadClosed'];
+    adminComment = json['adminComment'];
     key = json['key'];
   }
 
@@ -45,6 +48,7 @@ class UploadModel {
     data['status'] = this.status;
     data['referral_price'] = this.referralPrice;
     data['isLeadClosed'] = this.isLeadClosed;
+    data['adminComment'] = this.adminComment;
     data['key'] = this.key;
     return data;
   }

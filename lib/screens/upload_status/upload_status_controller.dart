@@ -176,7 +176,6 @@ class UploadStatusController extends GetxController{
         sheetObject.insertColumn(0);
 
         var applicationNumber = sheetObject.cell(CellIndex.indexByString('A${1}'));
-
         applicationNumber.value = "Application Number";
         var customerName = sheetObject.cell(CellIndex.indexByString('B${1}'));
         customerName.value = "Customer Name";

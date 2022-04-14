@@ -15,6 +15,8 @@ class _LeadUpdateState extends State<LeadUpdate> {
   LeadUpdateController _leadUpdateController = Get.put(LeadUpdateController());
   String leadStatus="---Filter---";
   String selectedFilter;
+  String leadByStatus="---Filter---";
+  String selectedByFilter;
   @override
   void initState() {
     // TODO: implement initState
@@ -78,12 +80,71 @@ class _LeadUpdateState extends State<LeadUpdate> {
       ),
     );
   }
+  Widget _filterByStatus() {
+    return Container(
+      width:  MediaQuery.of(context).size.width / 8,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5),
+          border: Border.all(color: Colors.black87)),
+      padding: const EdgeInsets.only(left: 20, right: 20, top: 0),
+      child: DropdownButtonFormField<String>(
+        dropdownColor: mainColor,
+        value: leadByStatus,
+        decoration: const InputDecoration(
+          focusedBorder: InputBorder.none,
+          disabledBorder: InputBorder.none,
+          enabledBorder: InputBorder.none,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.zero,
+          ),
+        ),
+        items: <String>[
+          '---Filter---',
+          'Pending',
+          'Login',
+          'UnderProcess',
+          'Rejected',
+          'Declined',
+          'Approved'
+        ].map((String value) {
+          setState(() {
+            selectedByFilter = value;
+          });
+          return DropdownMenuItem<String>(
+            onTap: () {
+              print("===============ontap");
+              print(value);
+              if (value == '---Filter---') {
+                Get.snackbar("Alert", "Please select Category");
+              } else {
+                _leadUpdateController.leadUpdate(value);
+              }
+            },
+            value: selectedByFilter,
+            child: CommonText(text: selectedByFilter, textColor: Colors.white),
+          );
+        }).toList(),
+        validator: (value) {
+          print("-----------ValidatedOr not------------");
+          print(value);
+          if (value == null) {
+            return 'Field required';
+          }
+          return null;
+        },
+        onChanged: (val) {},
+      ),
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           title: Text("Lead Status"),
           actions: [
+             Obx(()=>Center(child: Text("Total Lead ${_leadUpdateController.getLeadCount.toString()}")),),
+            SizedBox(width: 20,),
+            _filterByStatus(),
             _filterBar()
           ],
         ),
@@ -145,7 +206,12 @@ class _LeadUpdateState extends State<LeadUpdate> {
                         )),
                         DataColumn(
                             label: Text(
-                          'RM Name',
+                              'RM Number',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            )),
+                        DataColumn(
+                            label: Text(
+                          'VSA Name',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         )),
                         DataColumn(
@@ -229,15 +295,26 @@ class _LeadUpdateState extends State<LeadUpdate> {
                               ? "No Product"
                               : _leadUpdateController.getLeadGroupByList[index]
                                   .leadList[childIndex].product)),
-                          DataCell(Text(_leadUpdateController
-                                      .getLeadGroupByList[index]
-                                      .leadList[childIndex]
-                                      .referralId
-                                      .toString() ==
+
+                              DataCell(Text(_leadUpdateController
+                                  .getLeadGroupByList[index]
+                                  .leadList[childIndex]
+                                  .referralId
+                                  .toString() ==
                                   null
-                              ? "No Referral Name"
-                              : _leadUpdateController.getLeadGroupByList[index]
+                                  ? "No Referral Name"
+                                  : _leadUpdateController.getLeadGroupByList[index]
                                   .name
+                                  .toString())),
+                              DataCell(Text(_leadUpdateController
+                                  .getLeadGroupByList[index]
+                                  .leadList[childIndex].assignedTo
+                                  .toString() ==
+                                  null
+                                  ? "Not Assigned Yet"
+                                  : _leadUpdateController
+                                  .getLeadGroupByList[index]
+                                  .leadList[childIndex].assignedTo
                                   .toString())),
                           DataCell(Text(_leadUpdateController
                                       .getLeadGroupByList[index]
