@@ -4,9 +4,8 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
-
 import '../../helper/constant.dart';
-import '../lead_update/lead_update_controller.dart';
+
 
 class LeadExcel extends StatefulWidget {
   @override
@@ -103,6 +102,7 @@ class _LeadExcelState extends State<LeadExcel> {
                         DataColumn(label: Text('Status',style: TextStyle(fontWeight: FontWeight.bold),)),
                         DataColumn(label: Text('Price',style: TextStyle(fontWeight: FontWeight.bold),)),
                         DataColumn(label: Text('Lead Closed',style: TextStyle(fontWeight: FontWeight.bold),)),
+                        DataColumn(label: Text('Lead Comment',style: TextStyle(fontWeight: FontWeight.bold),)),
                       ],
                       rows:
                       List.generate(
@@ -116,6 +116,7 @@ class _LeadExcelState extends State<LeadExcel> {
                           DataCell(Text(_uploadStatusController.getUploadList[index].status==null ? "No Status":_uploadStatusController.getUploadList[index].status)),
                           DataCell(Text(_uploadStatusController.getUploadList[index].referralPrice.toString()==null ? "0":_uploadStatusController.getUploadList[index].referralPrice.toString())),
                           DataCell(Text(_uploadStatusController.getUploadList[index].isLeadClosed.toString()==null ? "No details":_uploadStatusController.getUploadList[index].isLeadClosed.toString())),
+                          DataCell(Text(_uploadStatusController.getUploadList[index].adminComment.toString()==null ? "No Comment":_uploadStatusController.getUploadList[index].adminComment.toString())),
                         ]);
                       }),
                     ),
@@ -152,6 +153,7 @@ class _LeadExcelState extends State<LeadExcel> {
                       DataColumn(label: Text('Status',style: TextStyle(fontWeight: FontWeight.bold),)),
                       DataColumn(label: Text('Price',style: TextStyle(fontWeight: FontWeight.bold),)),
                       DataColumn(label: Text('Lead Closed',style: TextStyle(fontWeight: FontWeight.bold),)),
+                      DataColumn(label: Text('Lead Comment',style: TextStyle(fontWeight: FontWeight.bold),)),
                     ],
                     rows:
                     List.generate(
@@ -165,6 +167,7 @@ class _LeadExcelState extends State<LeadExcel> {
                         DataCell(Text(_uploadStatusController.getUploadedList[index].status==null ? "No Status":_uploadStatusController.getUploadedList[index].status)),
                         DataCell(Text(_uploadStatusController.getUploadedList[index].referralPrice.toString()==null ? "0":_uploadStatusController.getUploadedList[index].referralPrice.toString())),
                         DataCell(Text(_uploadStatusController.getUploadedList[index].isLeadClosed.toString()==null ? "No details":_uploadStatusController.getUploadedList[index].isLeadClosed.toString())),
+                        DataCell(Text(_uploadStatusController.getUploadedList[index].adminComment.toString()==null ? "No Comment":_uploadStatusController.getUploadedList[index].adminComment.toString())),
                       ]);
                     }),
                   ),

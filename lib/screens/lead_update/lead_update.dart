@@ -229,16 +229,14 @@ class _LeadUpdateState extends State<LeadUpdate> {
                           'Lead Date',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         )),
-
                         //DataColumn(label: Text('Assign To')),
                       ],
                       rows: List.generate(
                           _leadUpdateController.getLeadGroupByList[index].leadList
                               .length, (childIndex) {
                         return DataRow(
-
                             cells: [
-                          DataCell(
+                              DataCell(
                             Text(_leadUpdateController.getLeadGroupByList[index]
                                 .leadList.length ==
                                 0
@@ -253,7 +251,7 @@ class _LeadUpdateState extends State<LeadUpdate> {
                                     : _leadUpdateController.getLeadGroupByList[index]
                                     .leadList[childIndex].applicationNo),
                               ),
-                          DataCell(
+                              DataCell(
                             Text(_leadUpdateController.getLeadGroupByList[index]
                                         .leadList[childIndex].customerName ==
                                     null
@@ -261,7 +259,7 @@ class _LeadUpdateState extends State<LeadUpdate> {
                                 : _leadUpdateController.getLeadGroupByList[index]
                                     .leadList[childIndex].customerName),
                           ),
-                          DataCell(Text(_leadUpdateController
+                              DataCell(Text(_leadUpdateController
                                       .getLeadGroupByList[index]
                                       .leadList[childIndex]
                                       .customerPhone
@@ -271,7 +269,7 @@ class _LeadUpdateState extends State<LeadUpdate> {
                               : _leadUpdateController.getLeadGroupByList[index]
                                   .leadList[childIndex].customerPhone
                                   .toString())),
-                          DataCell(Text(_leadUpdateController
+                              DataCell(Text(_leadUpdateController
                                       .getLeadGroupByList[index]
                                       .leadList[childIndex]
                                       .type ==
@@ -279,7 +277,7 @@ class _LeadUpdateState extends State<LeadUpdate> {
                               ? "Product Type"
                               : _leadUpdateController.getLeadGroupByList[index]
                                   .leadList[childIndex].type)),
-                          DataCell(Text(_leadUpdateController
+                              DataCell(Text(_leadUpdateController
                                       .getLeadGroupByList[index]
                                       .leadList[childIndex]
                                       .status ==
@@ -287,7 +285,7 @@ class _LeadUpdateState extends State<LeadUpdate> {
                               ? "No Status"
                               : _leadUpdateController.getLeadGroupByList[index]
                                   .leadList[childIndex].status)),
-                          DataCell(Text(_leadUpdateController
+                              DataCell(Text(_leadUpdateController
                                       .getLeadGroupByList[index]
                                       .leadList[childIndex]
                                       .product ==
@@ -295,7 +293,6 @@ class _LeadUpdateState extends State<LeadUpdate> {
                               ? "No Product"
                               : _leadUpdateController.getLeadGroupByList[index]
                                   .leadList[childIndex].product)),
-
                               DataCell(Text(_leadUpdateController
                                   .getLeadGroupByList[index]
                                   .leadList[childIndex]
@@ -316,7 +313,7 @@ class _LeadUpdateState extends State<LeadUpdate> {
                                   .getLeadGroupByList[index]
                                   .leadList[childIndex].assignedTo
                                   .toString())),
-                          DataCell(Text(_leadUpdateController
+                              DataCell(Text(_leadUpdateController
                                       .getLeadGroupByList[index]
                                       .leadList[childIndex]
                                       .adminComment ==
@@ -324,7 +321,7 @@ class _LeadUpdateState extends State<LeadUpdate> {
                               ? "No Comment"
                               : _leadUpdateController.getLeadGroupByList[index]
                                   .leadList[childIndex].adminComment)),
-                          DataCell(Text(_leadUpdateController
+                              DataCell(Text(_leadUpdateController
                                       .getLeadGroupByList[index]
                                       .leadList[childIndex]
                                       .comment ==

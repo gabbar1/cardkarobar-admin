@@ -8,6 +8,7 @@ import '../partner/partner.dart';
 import '../payment/payment.dart';
 import '../upload_status/upload_status.dart';
 import '../user_details/user.dart';
+import '../vsp/vsp_view.dart';
 
 class HomeNavigator extends StatefulWidget {
   @override
@@ -33,6 +34,8 @@ class _HomeNavigatorState extends State<HomeNavigator> {
         return LeadExcel();
       case 6:
         return PaymentView();
+      case 7:
+        return VSP();
 
         break;
       default:
@@ -180,6 +183,22 @@ class _HomeNavigatorState extends State<HomeNavigator> {
                         style: TextStyle(
                             color:
                             _selectedIndex == 6 ? mainColor : Colors.white),
+                      ),
+                    ),
+                    NavigationRailDestination(
+                      icon: const Icon(
+                        Icons.account_circle_outlined,
+                        color: Colors.white,
+                      ),
+                      selectedIcon: const Icon(
+                        Icons.account_circle_outlined,
+                        color: mainColor,
+                      ),
+                      label: Text(
+                        'Partner',
+                        style: TextStyle(
+                            color:
+                            _selectedIndex == 7 ? mainColor : Colors.white),
                       ),
                     ),
                   ],

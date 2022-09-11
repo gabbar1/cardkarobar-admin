@@ -3,12 +3,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class DownloadModel {
   String applicationNumber;
   String customerName;
-  int customerPhone;
+  double customerPhone;
   String product;
   String type;
   Timestamp time;
   String status;
-  int referralPrice;
+  double referralPrice;
   bool isLeadClosed;
   String key;
 
@@ -26,16 +26,19 @@ class DownloadModel {
       });
 
   DownloadModel.fromJson(Map<String, dynamic> json) {
-    applicationNumber = json['applicationNumber'];
-    customerName = json['customer_name'];
+    applicationNumber = json['applicationNumber'].toString();
+    customerName = json['customer_name'].toString();
+    print("========================referral_price================");
+     print(json['customer_phone']);
     customerPhone = json['customer_phone'];
-    product = json['product'];
-    type = json['type'];
+    product = json['product'].toString();
+    type = json['type'].toString();
     time = json['time'];
-    status = json['status'];
+    status = json['status'].toString();
+    print(json['referral_price']);
     referralPrice = json['referral_price'];
     isLeadClosed = json['isLeadClosed'];
-    key = json['key'];
+    key = json['key'].toString();
   }
 
   Map<String, dynamic> toJson() {

@@ -105,6 +105,8 @@ class UploadStatusController extends GetxController{
       var jsonData =await excelToJson();
       jsonData.forEach((element) {
         print("json-------------------------------------------------------");
+        print(element["Lead Closed"]);
+        print(element["Lead Closed"].runtimeType);
         UploadModel _uploadModel = UploadModel(
           applicationNumber: element["Application Number"],
           customerName: element["Customer Name"],
@@ -114,7 +116,8 @@ class UploadStatusController extends GetxController{
           //time: Timestamp.fromDate(DateTime.parse(element["Lead Date"])),
           status: element["Status"],
           referralPrice:int.parse(element["Referral Price"]),
-          isLeadClosed: element["Lead Closed"],
+          isLeadClosed: element["Lead Closed"].runtimeType == String ? element["Lead Closed"].toString().toLowerCase()=="true"?true:false:element["Lead Closed"],
+          adminComment: element["adminComment"],
           key: element["key"]
         );
         setUploadList = _uploadModel;
@@ -162,9 +165,9 @@ class UploadStatusController extends GetxController{
     downloadExcel.value.clear();
     downloadExcel.refresh();
     try{
-      FirebaseFirestore.instance.collection("leads").where("product",isEqualTo: product).where("status",isEqualTo: "Login").where("isLeadClosed",isNotEqualTo: true).get().then((value) {
+      FirebaseFirestore.instance.collection("leads").where("product",isEqualTo: product).get().then((value) {
         value.docs.forEach((element) {
-          print("============== element============");
+         // print("============== element============");
           DownloadModel downloadModel = DownloadModel.fromJson(element.data());
           downloadModel.key = element.id;
           setDownLoadList = downloadModel;
@@ -259,45 +262,60 @@ class UploadStatusController extends GetxController{
             print("=============check Entries==============");
             print(i);
             print(getUploadList[i].key);
+            print(getUploadList[i].customerName);
+            print(_leadModel.referralId);
             DocumentReference userDetails  = await _firestore.collection("user_details").doc(_leadModel.referralId.toString());
             DocumentSnapshot userDetailsSnap = await transaction.get(userDetails);
             print(userDetailsSnap["total_wallet"]);
+            print(userDetailsSnap["advisor_name"]);
             UserDetailModel _userDetailModel = UserDetailModel.fromJson(userDetailsSnap.data());
-            DocumentReference referralDetails  = _firestore.collection("user_details").doc(_userDetailModel.referedBy);
-            DocumentSnapshot referralDetailsSnap = await transaction.get(referralDetails);
-          //  print(referralDetailsSnap.data());
-            UserDetailModel _refferalDetailModel = UserDetailModel.fromJson(referralDetailsSnap.data());
+            DocumentReference referralDetails;
+            DocumentSnapshot referralDetailsSnap;
+            UserDetailModel _refferalDetailModel;
+            if(!_userDetailModel.referedBy.isEmpty){
+               referralDetails  = _firestore.collection("user_details").doc(_userDetailModel.referedBy);
+               referralDetailsSnap = await transaction.get(referralDetails);
+               _refferalDetailModel = UserDetailModel.fromJson(referralDetailsSnap.data());
+            }
+
             await transaction.update(userDetails,{
               "total_wallet":(double.parse(_userDetailModel.total_wallet) + _leadModel.referralPrice).toString(),
               "current_wallet":(double.parse(_userDetailModel.current_wallet) + _leadModel.referralPrice).toString(),
             });
-
-            await transaction.update(referralDetails,{
-              "total_wallet":(double.parse(_refferalDetailModel.total_wallet) + ((10/100)*_leadModel.referralPrice)).toString(),
-              "current_wallet":(double.parse(_refferalDetailModel.current_wallet) + ((10/100)*_leadModel.referralPrice)).toString(),
-            });
-
-          }
-          getUploadList[i].isLeadClosed =true;
-           await transaction.update(getLead,getUploadList[i].toJson());
-         /* uploadList.value.removeAt(i);
-          uploadList.refresh();
-          uploadedList.value.add(getUploadList[i]);
-          uploadedList.refresh();*/
-
+            if(!_userDetailModel.referedBy.isEmpty){
+              await transaction.update(referralDetails,{
+                "total_wallet":(double.parse(_refferalDetailModel.total_wallet) + ((10/100)*_leadModel.referralPrice)).toString(),
+                "current_wallet":(double.parse(_refferalDetailModel.current_wallet) + ((10/100)*_leadModel.referralPrice)).toString(),
+              });
+            }
+            await transaction.update(getLead,getUploadList[i].toJson());
+            setUploadedList = getUploadList[i];
             closeLoader();
 
+          }
+          else{
+            print(i);
+            print(getUploadList[i].key);
+            print(getUploadList[i].customerName);
+            await transaction.update(getLead,getUploadList[i].toJson());
+            setUploadedList = getUploadList[i];
+            closeLoader();
+          }
+
         }).then((value) {
-          setUploadedList = getUploadList[i];
-         /* setUploadedList = getUploadList[i];
-          uploadList.value.remove(getUploadList[i]);
-          uploadList.refresh();*/
+
+        }).onError((error, stackTrace) {
+          closeLoader();
+          print(error.toString());
+          Get.snackbar("Error", error.toString());
         });
 
       }
       catch(e){
-        closeLoader();
+
         Get.snackbar("Error", e.toString());
+        print(e.toString());
+        closeLoader();
       }
     }
   }

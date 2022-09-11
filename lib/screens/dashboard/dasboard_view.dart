@@ -1,11 +1,8 @@
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_workers/utils/debouncer.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../helper/constant.dart';
 import 'dashboard_controller.dart';
 import 'model/contact_model.dart';
@@ -122,7 +119,7 @@ class _DashBoardViewState extends State<DashBoardView> {
           items: <String>[
             '--All Category--',
             'Demat',
-            'Credit Card',
+            'Credit-Card',
             'Insurance',
             'Loans',
           ].map((String value) {
