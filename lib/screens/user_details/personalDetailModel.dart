@@ -18,6 +18,7 @@ class UserDetailModel {
   String current_wallet;
   bool isAdmin;
   bool isEnabled;
+  bool isOwner;
   String key;
   Timestamp registerDate;
   BankDetailModel bankDetails;
@@ -42,7 +43,8 @@ class UserDetailModel {
         this.isAdmin,
         this.key,
         this.registerDate,
-        this.bankDetails
+        this.bankDetails,
+        this.isOwner
       });
 
   UserDetailModel.fromJson(Map<String, dynamic> json) {
@@ -66,6 +68,7 @@ class UserDetailModel {
      key = json['key'].toString();
     registerDate = json['registerDate'];
     bankDetails = json['bankDetails'];
+    isOwner = json['isOwner'];
 
   }
 
@@ -92,6 +95,7 @@ class UserDetailModel {
     data['key'] = this.key;
     data['registerDate'] = this.registerDate;
     data['bankDetails'] = this.bankDetails;
+    data['isOwner'] = this.isOwner;
     return data;
   }
 }

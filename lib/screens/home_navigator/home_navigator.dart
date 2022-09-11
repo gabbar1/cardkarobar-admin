@@ -8,7 +8,8 @@ import '../partner/partner.dart';
 import '../payment/payment.dart';
 import '../upload_status/upload_status.dart';
 import '../user_details/user.dart';
-import '../vsp/vsp_view.dart';
+import '../vsa_partner/vsa_partner.dart';
+
 
 class HomeNavigator extends StatefulWidget {
   @override
@@ -35,7 +36,8 @@ class _HomeNavigatorState extends State<HomeNavigator> {
       case 6:
         return PaymentView();
       case 7:
-        return VSP();
+
+        return VSPartner();
 
         break;
       default:
@@ -187,18 +189,21 @@ class _HomeNavigatorState extends State<HomeNavigator> {
                     ),
                     NavigationRailDestination(
                       icon: const Icon(
-                        Icons.account_circle_outlined,
+
+                        Icons.group,
                         color: Colors.white,
                       ),
                       selectedIcon: const Icon(
-                        Icons.account_circle_outlined,
+                        Icons.group,
                         color: mainColor,
                       ),
                       label: Text(
                         'Partner',
                         style: TextStyle(
                             color:
-                            _selectedIndex == 7 ? mainColor : Colors.white),
+
+                            _selectedIndex == 6 ? mainColor : Colors.white),
+
                       ),
                     ),
                   ],
